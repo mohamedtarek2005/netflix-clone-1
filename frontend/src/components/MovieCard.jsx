@@ -1,0 +1,2 @@
+import { Link } from 'react-router-dom';
+export default function MovieCard({ movie }) { return <Link to={`/details/movie/${movie.id}`} className="media-card"><div className="media-card-image-wrap"><img src={movie.poster} alt={movie.title} className="media-card-image" loading="lazy" /><div className="media-card-overlay"><span>▶</span><strong>{movie.title}</strong><small>★ {movie.rating} · {movie.releaseYear}</small></div></div><div className="media-card-info"><strong>{movie.title}</strong><span>{movie.releaseYear} · ★ {movie.rating}</span></div></Link>; }

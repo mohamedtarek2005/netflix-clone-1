@@ -1,0 +1,1 @@
+export default function Footer() { return <footer className="site-footer"><div><strong>NETFLIX<span>+</span></strong><p>A cinematic streaming experience built as a full-stack learning project.</p></div><div className="footer-note">Not affiliated with Netflix · Demo content only · © 2026</div></footer>; }

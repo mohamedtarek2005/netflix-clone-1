@@ -1,0 +1,2 @@
+import { Link } from 'react-router-dom';
+export default function ShowCard({ show }) { return <Link to={`/details/show/${show.id}`} className="media-card"><div className="media-card-image-wrap"><img src={show.poster} alt={show.title} className="media-card-image" loading="lazy" /><div className="media-card-overlay"><span>▶</span><strong>{show.title}</strong><small>★ {show.rating} · {show.releaseYear}</small></div></div><div className="media-card-info"><strong>{show.title}</strong><span>{show.releaseYear} · ★ {show.rating}</span></div></Link>; }

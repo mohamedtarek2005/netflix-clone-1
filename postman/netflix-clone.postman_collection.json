@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "Netflix Clone API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:4000/api" },
+    { "key": "movieId", "value": "1" },
+    { "key": "showId", "value": "1" },
+    { "key": "watchlistId", "value": "1" },
+    { "key": "subscriptionId", "value": "1" }
+  ],
+  "item": [
+    { "name": "Health", "request": { "method": "GET", "url": "{{baseUrl}}/health" } },
+
+    { "name": "Auth - Register", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }],
+      "body": { "mode": "raw", "raw": "{\n  \"name\": \"Jane Doe\",\n  \"email\": \"jane@example.com\",\n  \"password\": \"password123\"\n}" },
+      "url": "{{baseUrl}}/auth/register" } },
+
+    { "name": "Auth - Login", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }],
+      "body": { "mode": "raw", "raw": "{\n  \"email\": \"jane@example.com\",\n  \"password\": \"password123\"\n}" },
+      "url": "{{baseUrl}}/auth/login" } },
+
+    { "name": "Auth - Me", "request": { "method": "GET", "url": "{{baseUrl}}/auth/me" } },
+    { "name": "Auth - Logout", "request": { "method": "POST", "url": "{{baseUrl}}/auth/logout" } },
+
+    { "name": "Movies - List", "request": { "method": "GET", "url": "{{baseUrl}}/movies" } },
+    { "name": "Movies - List by category", "request": { "method": "GET", "url": "{{baseUrl}}/movies?category=Action" } },
+    { "name": "Movies - Get by id", "request": { "method": "GET", "url": "{{baseUrl}}/movies/{{movieId}}" } },
+
+    { "name": "Shows - List", "request": { "method": "GET", "url": "{{baseUrl}}/shows" } },
+    { "name": "Shows - Get by id", "request": { "method": "GET", "url": "{{baseUrl}}/shows/{{showId}}" } },
+    { "name": "Shows - Episodes", "request": { "method": "GET", "url": "{{baseUrl}}/shows/{{showId}}/episodes" } },
+    { "name": "Shows - Episodes by season", "request": { "method": "GET", "url": "{{baseUrl}}/shows/{{showId}}/episodes?season=1" } },
+
+    { "name": "Search", "request": { "method": "GET", "url": "{{baseUrl}}/search?q=static" } },
+
+    { "name": "Watchlist - Get", "request": { "method": "GET", "url": "{{baseUrl}}/watchlist" } },
+    { "name": "Watchlist - Add movie", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }],
+      "body": { "mode": "raw", "raw": "{\n  \"movieId\": {{movieId}}\n}" },
+      "url": "{{baseUrl}}/watchlist" } },
+    { "name": "Watchlist - Remove", "request": { "method": "DELETE", "url": "{{baseUrl}}/watchlist/{{watchlistId}}" } },
+
+    { "name": "Users - Me", "request": { "method": "GET", "url": "{{baseUrl}}/users/me" } },
+
+    { "name": "Subscriptions - Plans", "request": { "method": "GET", "url": "{{baseUrl}}/subscriptions/plans" } },
+    { "name": "Subscriptions - Mine", "request": { "method": "GET", "url": "{{baseUrl}}/subscriptions/me" } },
+    { "name": "Subscriptions - Create", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }],
+      "body": { "mode": "raw", "raw": "{\n  \"plan\": \"premium\"\n}" },
+      "url": "{{baseUrl}}/subscriptions" } },
+
+    { "name": "Payments - Create", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }],
+      "body": { "mode": "raw", "raw": "{\n  \"subscriptionId\": {{subscriptionId}}\n}" },
+      "url": "{{baseUrl}}/payments" } },
+    { "name": "Payments - Mine", "request": { "method": "GET", "url": "{{baseUrl}}/payments/me" } }
+  ]
+}

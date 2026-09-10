@@ -1,0 +1,2 @@
+import MovieCard from './MovieCard'; import ShowCard from './ShowCard';
+export default function MovieRow({ title, movies, type = 'movie' }) { if (!movies?.length) return null; return <section className="content-row"><div className="section-heading"><h2>{title}</h2><span>View all →</span></div><div className="row media-row">{movies.map(item => type === 'show' ? <ShowCard key={item.id} show={item} /> : <MovieCard key={item.id} movie={item} />)}</div></section>; }
