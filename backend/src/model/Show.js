@@ -17,27 +17,22 @@ const Show = sequelize.define(
 
     description: {
       type: DataTypes.TEXT,
-      allowNull: true,
     },
 
     poster: {
       type: DataTypes.STRING,
-      allowNull: true,
     },
 
     backdrop: {
       type: DataTypes.STRING,
-      allowNull: true,
     },
 
     rating: {
       type: DataTypes.FLOAT,
-      allowNull: true,
     },
 
     releaseYear: {
       type: DataTypes.INTEGER,
-      allowNull: true,
     },
   },
   {
