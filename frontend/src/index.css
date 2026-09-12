@@ -72,3 +72,7 @@
 @media(max-width:800px){.showcase-panel,.genre-panel,.faq-panel,.final-cta{padding:60px 18px}.feature-block{padding:50px 18px}.stats-banner{padding:70px 18px;background-attachment:scroll}.section-head h2{font-size:26px}}
 
 @media(max-width:480px){.preview-card{flex-basis:160px}.genre-grid{grid-template-columns:1fr 1fr;gap:12px}.stats-banner-grid{gap:26px}}
+
+.landing-hero-animation{position:absolute;top:50%;right:6vw;transform:translateY(-50%);width:min(30vw,420px);z-index:1;pointer-events:none;opacity:.85;mix-blend-mode:screen}
+.landing-hero-animation img{width:100%;height:auto;display:block}
+@media(max-width:800px){.landing-hero-animation{width:min(50vw,260px);right:4vw;opacity:.6}}

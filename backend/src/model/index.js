@@ -1,4 +1,5 @@
 const { sequelize } = require('../database/database');
+
 const User = require('./User');
 const Movie = require('./Movie');
 const Show = require('./Show');
@@ -8,37 +9,119 @@ const WatchList = require('./WatchList');
 const Subscription = require('./Subscription');
 const Payment = require('./Payment');
 
-// ------------------------------------------------------------------
-// Associations — all defined in one place so relationships are easy
-// to trace, instead of scattered across individual model files.
-// ------------------------------------------------------------------
+// ======================================================
+// SHOW → EPISODE
+// One Show has many Episodes
+// ======================================================
 
-// Show → Episode (one-to-many)
-Show.hasMany(Episode, { foreignKey: 'showId', onDelete: 'CASCADE' });
-Episode.belongsTo(Show, { foreignKey: 'showId' });
+Show.hasMany(Episode, {
+  foreignKey: 'showId',
+  onDelete: 'CASCADE',
+});
 
-// Movie / Show ↔ Category (many-to-many, through join tables)
-Movie.belongsToMany(Category, { through: 'movie_categories', foreignKey: 'movieId' });
-Category.belongsToMany(Movie, { through: 'movie_categories', foreignKey: 'categoryId' });
+Episode.belongsTo(Show, {
+  foreignKey: 'showId',
+});
 
-Show.belongsToMany(Category, { through: 'show_categories', foreignKey: 'showId' });
-Category.belongsToMany(Show, { through: 'show_categories', foreignKey: 'categoryId' });
+// ======================================================
+// MOVIE ↔ CATEGORY
+// Many-to-many
+// ======================================================
 
-// User → WatchList (one-to-many); WatchList → Movie/Show (optional each)
-User.hasMany(WatchList, { foreignKey: 'userId', onDelete: 'CASCADE' });
-WatchList.belongsTo(User, { foreignKey: 'userId' });
-WatchList.belongsTo(Movie, { foreignKey: 'movieId' });
-WatchList.belongsTo(Show, { foreignKey: 'showId' });
+Movie.belongsToMany(Category, {
+  through: 'movie_categories',
+  foreignKey: 'movieId',
+});
 
-// User → Subscription → Payment
-User.hasMany(Subscription, { foreignKey: 'userId', onDelete: 'CASCADE' });
-Subscription.belongsTo(User, { foreignKey: 'userId' });
+Category.belongsToMany(Movie, {
+  through: 'movie_categories',
+  foreignKey: 'categoryId',
+});
 
-Subscription.hasMany(Payment, { foreignKey: 'subscriptionId', onDelete: 'CASCADE' });
-Payment.belongsTo(Subscription, { foreignKey: 'subscriptionId' });
+// ======================================================
+// SHOW ↔ CATEGORY
+// Many-to-many
+// ======================================================
 
-User.hasMany(Payment, { foreignKey: 'userId', onDelete: 'CASCADE' });
-Payment.belongsTo(User, { foreignKey: 'userId' });
+Show.belongsToMany(Category, {
+  through: 'show_categories',
+  foreignKey: 'showId',
+});
+
+Category.belongsToMany(Show, {
+  through: 'show_categories',
+  foreignKey: 'categoryId',
+});
+
+// ======================================================
+// USER → WATCHLIST
+// One User has many WatchList items
+// ======================================================
+
+User.hasMany(WatchList, {
+  foreignKey: 'userId',
+  onDelete: 'CASCADE',
+});
+
+WatchList.belongsTo(User, {
+  foreignKey: 'userId',
+});
+
+// WatchList → Movie
+WatchList.belongsTo(Movie, {
+  foreignKey: 'movieId',
+});
+
+// WatchList → Show
+WatchList.belongsTo(Show, {
+  foreignKey: 'showId',
+});
+
+// ======================================================
+// USER → SUBSCRIPTION
+// One User has many Subscriptions
+// ======================================================
+
+User.hasMany(Subscription, {
+  foreignKey: 'userId',
+  onDelete: 'CASCADE',
+});
+
+Subscription.belongsTo(User, {
+  foreignKey: 'userId',
+});
+
+// ======================================================
+// SUBSCRIPTION → PAYMENT
+// One Subscription has many Payments
+// ======================================================
+
+Subscription.hasMany(Payment, {
+  foreignKey: 'subscriptionId',
+  onDelete: 'CASCADE',
+});
+
+Payment.belongsTo(Subscription, {
+  foreignKey: 'subscriptionId',
+});
+
+// ======================================================
+// USER → PAYMENT
+// One User has many Payments
+// ======================================================
+
+User.hasMany(Payment, {
+  foreignKey: 'userId',
+  onDelete: 'CASCADE',
+});
+
+Payment.belongsTo(User, {
+  foreignKey: 'userId',
+});
+
+// ======================================================
+// EXPORT MODELS
+// ======================================================
 
 module.exports = {
   sequelize,
@@ -49,5 +132,5 @@ module.exports = {
   Category,
   WatchList,
   Subscription,
-  Payment
+  Payment,
 };

@@ -64,6 +64,9 @@ export default function Landing() {
         <div className="landing-noise" />
         <div className="landing-gradient" style={{ transform: `translateY(${scrollY * 0.15}px)` }} />
         <div className="landing-orb" style={{ transform: `translate3d(0, ${scrollY * 0.5}px, 0)` }} />
+        <div className="landing-hero-animation" aria-hidden="true">
+          <img src="/netflix-intro.gif" alt="" />
+        </div>
         <section className="landing-content" style={{ transform: `translateY(${scrollY * -0.12}px)`, opacity: Math.max(1 - scrollY / 600, 0) }}>
           <span className="eyebrow">STREAM WITHOUT LIMITS</span>
           <h1>Stories that stay<br /><span>with you.</span></h1>
