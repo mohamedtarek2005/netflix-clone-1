@@ -1,4 +1,140 @@
 import { Routes, Route } from 'react-router-dom';
-import Header from './components/Header'; import Footer from './components/Footer'; import ProtectedRoute from './components/ProtectedRoute';
-import Landing from './pages/Landing'; import Login from './pages/Login'; import Register from './pages/Register'; import Home from './pages/Home'; import Movies from './pages/Movies'; import Shows from './pages/Shows'; import Details from './pages/Details'; import Watch from './pages/Watch'; import Search from './pages/Search'; import MyList from './pages/MyList'; import Profile from './pages/Profile'; import Subscription from './pages/Subscription'; import Payment from './pages/Payment';
-export default function App(){return <div className="app-shell"><Header/><Routes><Route path="/" element={<Landing/>}/><Route path="/login" element={<Login/>}/><Route path="/register" element={<Register/>}/><Route path="/browse" element={<ProtectedRoute><Home/></ProtectedRoute>}/><Route path="/movies" element={<ProtectedRoute><Movies/></ProtectedRoute>}/><Route path="/shows" element={<ProtectedRoute><Shows/></ProtectedRoute>}/><Route path="/search" element={<ProtectedRoute><Search/></ProtectedRoute>}/><Route path="/details/:type/:id" element={<ProtectedRoute><Details/></ProtectedRoute>}/><Route path="/watch/movie/:id" element={<ProtectedRoute><Watch/></ProtectedRoute>}/><Route path="/watch/show/:id/:episodeId" element={<ProtectedRoute><Watch/></ProtectedRoute>}/><Route path="/my-list" element={<ProtectedRoute><MyList/></ProtectedRoute>}/><Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>}/><Route path="/subscription" element={<ProtectedRoute><Subscription/></ProtectedRoute>}/><Route path="/payment" element={<ProtectedRoute><Payment/></ProtectedRoute>}/><Route path="*" element={<div className="page container"><div className="empty-state"><h1>Page not found</h1><p>The page you're looking for doesn't exist.</p></div></div>}/></Routes><Footer/></div>}
+
+import Header from './components/Header';
+import Footer from './components/Footer';
+import ProtectedRoute from './components/ProtectedRoute';
+
+import Landing from './pages/Landing';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Home from './pages/Home';
+import Movies from './pages/Movies';
+import Shows from './pages/Shows';
+import Details from './pages/Details';
+import Watch from './pages/Watch';
+import Search from './pages/Search';
+import MyList from './pages/MyList';
+import Profile from './pages/Profile';
+import Subscription from './pages/Subscription';
+import Payment from './pages/Payment';
+
+export default function App() {
+  return (
+    <div className="app-shell">
+      <Header />
+
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        <Route
+          path="/browse"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/movies"
+          element={
+            <ProtectedRoute>
+              <Movies />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/shows"
+          element={
+            <ProtectedRoute>
+              <Shows />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* TEMP: Search without ProtectedRoute for testing */}
+        <Route path="/search" element={<Search />} />
+
+        <Route
+          path="/details/:type/:id"
+          element={
+            <ProtectedRoute>
+              <Details />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/watch/movie/:id"
+          element={
+            <ProtectedRoute>
+              <Watch />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/watch/show/:id/:episodeId"
+          element={
+            <ProtectedRoute>
+              <Watch />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/my-list"
+          element={
+            <ProtectedRoute>
+              <MyList />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/subscription"
+          element={
+            <ProtectedRoute>
+              <Subscription />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/payment"
+          element={
+            <ProtectedRoute>
+              <Payment />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="*"
+          element={
+            <div className="page container">
+              <div className="empty-state">
+                <h1>Page not found</h1>
+                <p>The page you're looking for doesn't exist.</p>
+              </div>
+            </div>
+          }
+        />
+      </Routes>
+
+      <Footer />
+    </div>
+  );
+}

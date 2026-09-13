@@ -1,23 +1,35 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-export default function SearchBar({ onSearch, autoFocus, onBlur, initialValue = '' }) {
+export default function SearchBar({
+  onSearch,
+  autoFocus,
+  initialValue = '',
+}) {
   const [value, setValue] = useState(initialValue);
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    if (value.trim()) onSearch(value.trim());
-  }
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const query = value.trim();
+
+      if (query) {
+        onSearch(query);
+      }
+    }, 400);
+
+    return () => clearTimeout(timer);
+  }, [value, onSearch]);
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div className="search-form">
+      <span className="search-icon">⌕</span>
+
       <input
         autoFocus={autoFocus}
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        onBlur={onBlur}
-        placeholder="Search titles..."
-        style={{ padding: '8px 12px', borderRadius: 4, border: '1px solid #555', background: '#111', color: '#fff' }}
+        placeholder="Titles, people, genres"
+        className="search-input"
       />
-    </form>
+    </div>
   );
 }

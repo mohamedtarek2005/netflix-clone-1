@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { api } from '../api/client';
 import VideoPlayer from '../components/VideoPlayer';
 import Loading from '../components/Loading';
@@ -7,6 +7,7 @@ import ErrorMessage from '../components/ErrorMessage';
 
 export default function Watch() {
   const { id, episodeId } = useParams();
+  const navigate = useNavigate();
 
   const [title, setTitle] = useState('');
   const [videoSrc, setVideoSrc] = useState(null);
@@ -46,12 +47,14 @@ export default function Watch() {
   }
 
   return (
-    <div style={{ background: '#000', minHeight: '100vh' }}>
-      <div style={{ padding: 16 }}>
-        <Link to="/browse" style={{ color: '#fff' }}>
-          &larr; Back
-        </Link>
-      </div>
+    <div className="watch-page">
+      <button
+        type="button"
+        className="watch-back-button"
+        onClick={() => navigate(-1)}
+      >
+        ← Back
+      </button>
 
       {error ? (
         <ErrorMessage message={error} />
@@ -59,7 +62,7 @@ export default function Watch() {
         <VideoPlayer src={videoSrc} title={title} />
       )}
 
-      <div style={{ padding: 16, color: '#fff' }}>
+      <div className="watch-title">
         {title}
       </div>
     </div>

@@ -38,9 +38,8 @@ export default function Header() {
 
   return (
     <header
-      className={`site-header ${
-        isLanding && !scrolled ? 'site-header-landing' : ''
-      }`}
+      className={`site-header ${isLanding && !scrolled ? 'site-header-landing' : ''
+        }`}
     >
       <Link to="/" className="brand" onClick={closeMenu}>
         N
@@ -77,26 +76,34 @@ export default function Header() {
       <div className="header-actions">
         {user ? (
           <>
-            {showSearch ? (
-              <SearchBar
-                autoFocus
-                onSearch={(query) => {
-                  setShowSearch(false);
-                  navigate(`/search?q=${encodeURIComponent(query)}`);
-                }}
-                onBlur={() => setShowSearch(false)}
-              />
-            ) : (
-              <button
-                type="button"
-                className="icon-button"
-                onClick={() => setShowSearch(true)}
-                aria-label="Search"
-              >
-                ⌕
-              </button>
-            )}
+{showSearch ? (
+  <div className="header-search">
+    <SearchBar
+      autoFocus
+      onSearch={(query) => {
+        navigate(`/search?q=${encodeURIComponent(query)}`);
+      }}
+    />
 
+    <button
+      type="button"
+      className="search-close"
+      onClick={() => setShowSearch(false)}
+      aria-label="Close search"
+    >
+      ✕
+    </button>
+  </div>
+) : (
+  <button
+    type="button"
+    className="icon-button"
+    onClick={() => setShowSearch(true)}
+    aria-label="Search"
+  >
+    ⌕
+  </button>
+)}
             <Link className="profile-pill" to="/profile">
               {(user.name || 'U').slice(0, 1).toUpperCase()}
             </Link>
