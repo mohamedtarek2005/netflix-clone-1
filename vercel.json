@@ -11,13 +11,11 @@
   },
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": {
-        "service": "backend"
-      }
+      "source": "/api/:path*",
+      "destination": "https://netflix-clone-1-production-f6ac.up.railway.app/api/:path*"
     },
     {
-      "source": "/(.*)",
+      "source": "/:path*",
       "destination": {
         "service": "frontend"
       }
