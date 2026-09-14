@@ -5,7 +5,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
 const { sequelize, connectDatabase } = require('./database/database');
-require('./model'); // registers all models + associations
+require('./model');
 
 const errorHandler = require('./middleware/errorHandler');
 
@@ -23,23 +23,53 @@ const app = express();
 
 const PORT = process.env.PORT || 4000;
 
-// ------------------------------------------------------------------
-// Global middleware
-// ------------------------------------------------------------------
+// -----------------------------------------------------
+// CORS
+// -----------------------------------------------------
+
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://netflix-clone-1-lac.vercel.app',
+  process.env.CLIENT_ORIGIN,
+].filter(Boolean);
 
 app.use(
   cors({
-    origin: process.env.CLIENT_ORIGIN || 'http://localhost:5173',
+    origin: (origin, callback) => {
+      // Allow requests like Postman / server-to-server
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      console.log('Blocked by CORS:', origin);
+      return callback(new Error(`CORS blocked origin: ${origin}`));
+    },
+
     credentials: true,
+
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization',
+    ],
   })
 );
+
+// -----------------------------------------------------
+// Middleware
+// -----------------------------------------------------
 
 app.use(express.json());
 app.use(cookieParser());
 
-// ------------------------------------------------------------------
+// -----------------------------------------------------
 // Routes
-// ------------------------------------------------------------------
+// -----------------------------------------------------
 
 app.use('/api/health', healthRoutes);
 app.use('/api/auth', authRoutes);
@@ -51,7 +81,10 @@ app.use('/api/users', userRoutes);
 app.use('/api/subscriptions', subscriptionRoutes);
 app.use('/api/payments', paymentRoutes);
 
-// 404 fallback
+// -----------------------------------------------------
+// 404
+// -----------------------------------------------------
+
 app.use((req, res) => {
   res.status(404).json({
     success: false,
@@ -59,32 +92,33 @@ app.use((req, res) => {
   });
 });
 
-// Centralized error handler
+// -----------------------------------------------------
+// Error handler
+// -----------------------------------------------------
+
 app.use(errorHandler);
 
-// ------------------------------------------------------------------
-// Database initialization
-// ------------------------------------------------------------------
+// -----------------------------------------------------
+// Start server
+// -----------------------------------------------------
 
-async function initDatabase() {
+async function startServer() {
   try {
     await connectDatabase();
+
     await sequelize.sync();
 
-    console.log('Database connected');
+    console.log('Database connected successfully');
+
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`Server running on port ${PORT}`);
+    });
   } catch (error) {
-    console.error('Failed to connect database:', error.message);
+    console.error('Failed to start server:', error);
+    process.exit(1);
   }
 }
 
-initDatabase();
-
-// Run a normal server only when starting locally with Node.
-// On Vercel, the Express app is exported instead.
-if (require.main === module) {
-  app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
-  });
-}
+startServer();
 
 module.exports = app;
