@@ -15,7 +15,7 @@
       "destination": "https://netflix-clone-1-production-f6ac.up.railway.app/api/:path*"
     },
     {
-      "source": "/:path*",
+      "source": "/(.*)",
       "destination": {
         "service": "frontend"
       }
